@@ -9,8 +9,8 @@ var defaultConnectionString = builder.Configuration.GetConnectionString("Default
 var postgresConnectionString = builder.Configuration.GetConnectionString("Postgres");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(defaultConnectionString));
-// builder.Services.AddDbContext<DataContext>(options =>
-//     options.UseNpgsql(postgreConnectionString));
+builder.Services.AddDbContext<DbContext>(options =>
+    options.UseNpgsql(postgresConnectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
