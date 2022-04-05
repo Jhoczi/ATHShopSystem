@@ -1,0 +1,30 @@
+﻿@model ShopItemsViewModel
+
+@{
+    ViewData["Title"] = "ShopList";
+}
+
+<h1>ShopList</h1>
+
+<p class="mt-5">
+    <a asp-action="Create">Create New Company</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Shoop List</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Shops) {
+        <tr>
+            <td>
+                @item.Name
+                @* @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) | *@
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

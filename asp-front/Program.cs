@@ -2,23 +2,31 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using asp_front.Data;
 using ath_server.Db;
+using ath_server.Interfaces;
+using ath_server.Repositories;
+using ath_server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 var postgresConnectionString = builder.Configuration.GetConnectionString("Postgres");
+
+// Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(defaultConnectionString));
-builder.Services.AddDbContext<DbContext>(options =>
+builder.Services.AddDbContext<DataContext>(options =>
     options.UseNpgsql(postgresConnectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
+
+// todo Move injection of this services to API
+builder.Services.AddTransient<IShopRepository, ShopRepository>();
+builder.Services.AddTransient<IShopService, ShopService>();
 
 var app = builder.Build();
 await CreateDbIfNotExists(app);
