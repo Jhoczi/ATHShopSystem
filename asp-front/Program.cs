@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using asp_front.Data;
+using ath_server.Db;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,9 @@ builder.Services.AddDbContext<DbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -48,16 +52,16 @@ app.Run();
 
 async Task CreateDbIfNotExists(IHost host)
 {
-    // await using var scope = host.Services.CreateAsyncScope();
-    // var services = scope.ServiceProvider;
-    // try
-    // {
-    //     var context = services.GetRequiredService<DataContext>();
-    //     await AppSeeder.Seed(context);
-    // }
-    // catch (Exception e)
-    // {
-    //     var logger = services.GetRequiredService<ILogger<Program>>();
-    //     logger.LogError(e, "An error occurred creating the DB.");
-    // }
+    await using var scope = host.Services.CreateAsyncScope();
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<DataContext>();
+        await Seeder.Seed(context);
+    }
+    catch (Exception e)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(e, "An error occurred creating the DB.");
+    }
 }
