@@ -3,6 +3,7 @@ html {
   font-size: 14px;
 }
 
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -18,11 +19,11 @@ html {
 body {
   margin-bottom: 60px;
   font-family: 'Roboto', sans-serif;
-  background-image: url("../img/background.png");
+ 
 }
 
 footer {
-  background-color: #ffffffeb;
+  
 }
 
 .body-container
@@ -33,4 +34,9 @@ footer {
 .mt-6
 {
   margin-top: 4rem!important;
+}
+
+#navbar-layout
+{
+  background-color: #212529;
 }
