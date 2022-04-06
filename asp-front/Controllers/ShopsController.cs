@@ -46,10 +46,11 @@ public class ShopsController : Controller
     // POST: ShopListController/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Create(IFormCollection collection)
+    public ActionResult Create(ShopViewModel shopViewModel)
     {
         try
         {
+            _shopService.Add(_mapper.Map<Shop>(shopViewModel));
             return RedirectToAction(nameof(Index));
         }
         catch
@@ -69,10 +70,11 @@ public class ShopsController : Controller
     // POST: ShopListController/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Edit(int id, IFormCollection collection)
+    public ActionResult Edit(int id, ShopViewModel shopViewModel)
     {
         try
         {
+            _shopService.Edit(_mapper.Map<Shop>(shopViewModel));
             return RedirectToAction(nameof(Index));
         }
         catch
