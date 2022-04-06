@@ -24,21 +24,17 @@ public class ShopsController : Controller
     // GET: ShopListController
     public async Task<IActionResult> Index()
     {
-        var x = _shopService.GetAllRecords().ToList();
-        //var x = (await _shopService.GetAll()).ToList();
-        var y = _mapper.Map<List<ShopViewModel>>(x);
-        _shopItemsViewModel.Shops = y;
+        IEnumerable<Shop> dbShops = _shopService.GetAllRecords();
+        _shopItemsViewModel.Shops = _mapper.Map<List<ShopViewModel>>(dbShops);
         return View(_shopItemsViewModel);
     }
 
     // GET: ShopListController/Details/5
     public async Task<IActionResult> Details(int id)
     {
-        // _shopItemsViewModel.Shops = _mapper.Map<List<ShopViewModel>>(await _shopService.GetAll());
-        // var selectedShop = _shopItemsViewModel.Shops
-        //     .SingleOrDefault(x => x.Id == id);
-        // return View(selectedShop);
-        return View();
+        var dbShop = _shopService.GetSingle(id);
+        var shopViewModel = _mapper.Map<ShopViewModel>(dbShop);
+        return View(shopViewModel);
     }
 
     // GET: ShopListController/Create
@@ -65,7 +61,9 @@ public class ShopsController : Controller
     // GET: ShopListController/Edit/5
     public ActionResult Edit(int id)
     {
-        return View();
+        var dbShop = _shopService.GetSingle(id);
+        var shopViewModel = _mapper.Map<ShopViewModel>(dbShop);
+        return View(shopViewModel);
     }
 
     // POST: ShopListController/Edit/5

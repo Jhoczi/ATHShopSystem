@@ -1,0 +1,27 @@
+﻿@model ShopViewModel;
+
+@{
+    ViewData["Title"] = "CreateNewShop";
+}
+<div class="mt-6">
+    
+    <h5>Create New Shop</h5>
+    <form asp-controller="Shops" asp-action="Create" method="post">
+      <div class="form-group mb-2">
+        <label for="InputCompanyName">Company Name</label>
+        <input type="text" class="form-control" id="InputCompanyName" placeholder="Enter company name">
+      </div>
+      <div class="form-group mb-2">
+        <label for="InputDescription">Description</label>
+        <input type="text" class="form-control" id="InputCompanyDescription" placeholder="Enter description">
+      </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    @* @if (@Model != null) *@
+    @* { *@
+    @*     <p>Id: @Model.Id</p> *@
+    @*     <p>Name: @Model.Name</p> *@
+    @*     <p>Address: @Model.Address</p> *@
+    @*     <p>Owner: @Model.OwnerCredentials</p> *@
+    @* } *@
+</div>

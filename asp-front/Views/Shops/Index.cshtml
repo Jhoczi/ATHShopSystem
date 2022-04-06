@@ -4,27 +4,32 @@
     ViewData["Title"] = "ShopList";
 }
 
-<h1>ShopList</h1>
-
-<p class="mt-5">
-    <a asp-action="Create" class="btn btn-success">Create New Company</a>
-</p>
-<table class="table">
+<table class="table mt-5">
     <thead>
-        <tr>
-            <th>Shoop List</th>
-        </tr>
+    <tr>
+        <th>
+            <h1 class="mt-5">Shoop List</h1>
+            <p class="">
+                <a asp-action="Create" class="btn btn-success">Create New Company</a>
+            </p>
+        </th>
+
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Shops) {
+    @foreach (var item in Model.Shops)
+    {
         <tr>
             <td>
-                @item.Name
-                @* @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) | *@
-                @Html.ActionLink("Details", "Details", new { id=item.Id }, new {@class = "btn btn-primary"}) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id }, new {@class = "btn btn-danger"})
+                <h5>@item.Name</h5>
+                <div>
+                    @Html.ActionLink("Details", "Details", new {id = item.Id}, new {@class = "btn btn-primary"})
+                    @Html.ActionLink("Edit", "Edit", new {id = item.Id}, new {@class = "btn btn-warning"})
+                    @Html.ActionLink("Delete", "Delete", new {id = item.Id}, new {@class = "btn btn-danger float-right"})
+
+                </div>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
