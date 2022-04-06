@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using asp_front.Data;
 using ath_server.Db;
 using ath_server.Interfaces;
+using ath_server.Models;
 using ath_server.Repositories;
 using ath_server.Services;
 
@@ -27,6 +28,9 @@ builder.Services.AddControllersWithViews();
 // todo Move injection of this services to API
 builder.Services.AddTransient<IShopRepository, ShopRepository>();
 builder.Services.AddTransient<IShopService, ShopService>();
+
+//builder.Services.AddTransient<IRepositoryService<Shop>>();
+builder.Services.AddScoped(typeof(IRepositoryService<>), typeof(RepositoryService<>));
 
 var app = builder.Build();
 await CreateDbIfNotExists(app);

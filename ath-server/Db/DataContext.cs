@@ -20,6 +20,9 @@ public class DataContext : DbContext
         modelBuilder.Entity<Shop>()
             .HasMany(p => p.Products);
 
+        modelBuilder.Entity<Shop>()
+            .HasKey(x=>x.Id);
+        
         modelBuilder.Entity<Product>()
             .HasKey(pr => pr.Id);
     }

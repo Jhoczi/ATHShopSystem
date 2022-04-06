@@ -26,7 +26,8 @@ public class ShopRepository : IShopRepository,IDisposable
 
     public async Task<Shop> GetShop(int id)
     {
-        return await _dbContext.Shops.SingleAsync(x=>x.Id == id);
+        // return await _dbContext.Shops.SingleAsync(x=>x.Id == id);
+        return null;
     }
 
     public async Task AddShop(Shop shop)
@@ -43,9 +44,10 @@ public class ShopRepository : IShopRepository,IDisposable
 
     public async Task DeleteShop(int id)
     {
-        var shop = await _dbContext.Shops.SingleAsync(x => x.Id == id);
-        _dbContext.Shops.Remove(shop);
-        await _dbContext.SaveChangesAsync();
+        // var shop = await _dbContext.Shops.SingleAsync(x => x.Id == id);
+        // _dbContext.Shops.Remove(shop);
+        // await _dbContext.SaveChangesAsync();
+        await Task.CompletedTask;
     }
 
     // public static ShopRepository CreateRepository()

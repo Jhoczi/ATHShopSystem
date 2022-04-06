@@ -1,5 +1,6 @@
 ﻿using asp_front.Models;
 using ath_server.Interfaces;
+using ath_server.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +9,12 @@ namespace asp_front.Controllers;
 public class ShopsController : Controller
 {
     private readonly IMapper _mapper;
-    private IShopService _shopService;
+    //private IShopService _shopService;
+    private IRepositoryService<Shop> _shopService;
+
     private ShopItemsViewModel _shopItemsViewModel;
 
-    public ShopsController(IMapper mapper, IShopService shopService)
+    public ShopsController(IMapper mapper, IRepositoryService<Shop> shopService)
     {
         _mapper = mapper;
         _shopService = shopService;
@@ -21,7 +24,8 @@ public class ShopsController : Controller
     // GET: ShopListController
     public async Task<IActionResult> Index()
     {
-        var x = (await _shopService.GetAll()).ToList();
+        var x = _shopService.GetAllRecords().ToList();
+        //var x = (await _shopService.GetAll()).ToList();
         var y = _mapper.Map<List<ShopViewModel>>(x);
         _shopItemsViewModel.Shops = y;
         return View(_shopItemsViewModel);
@@ -30,10 +34,11 @@ public class ShopsController : Controller
     // GET: ShopListController/Details/5
     public async Task<IActionResult> Details(int id)
     {
-        _shopItemsViewModel.Shops = _mapper.Map<List<ShopViewModel>>(await _shopService.GetAll());
-        var selectedShop = _shopItemsViewModel.Shops
-            .SingleOrDefault(x => x.Id == id);
-        return View(selectedShop);
+        // _shopItemsViewModel.Shops = _mapper.Map<List<ShopViewModel>>(await _shopService.GetAll());
+        // var selectedShop = _shopItemsViewModel.Shops
+        //     .SingleOrDefault(x => x.Id == id);
+        // return View(selectedShop);
+        return View();
     }
 
     // GET: ShopListController/Create
