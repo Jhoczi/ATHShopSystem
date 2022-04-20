@@ -6,7 +6,7 @@ public class Seeder
 {
     public static async Task Seed(DataContext context)
     {
-        await context.Database.EnsureDeletedAsync();
+        //await context.Database.EnsureDeletedAsync();
         await context.Database.EnsureCreatedAsync();
 
         if (context.Shops.Any())

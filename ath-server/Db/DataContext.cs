@@ -1,9 +1,11 @@
 ﻿using ath_server.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ath_server.Db;
 
-public class DataContext : DbContext
+public class DataContext : IdentityDbContext
 {
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
     public DbSet<Shop> Shops { get; set; } = null!;
@@ -25,5 +27,7 @@ public class DataContext : DbContext
         
         modelBuilder.Entity<Product>()
             .HasKey(pr => pr.Id);
+
+        base.OnModelCreating(modelBuilder);
     }
 }
