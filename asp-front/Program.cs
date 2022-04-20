@@ -1,25 +1,55 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using asp_front.Data;
 using ath_server.Db;
 using ath_server.Interfaces;
-using ath_server.Models;
 using ath_server.Repositories;
 using ath_server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 var postgresConnectionString = builder.Configuration.GetConnectionString("Postgres");
+// builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//     options.UseSqlServer(defaultConnectionString));
+
 
 // Add services to the container.
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(defaultConnectionString));
+// builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//     options.UseSqlite(defaultConnectionString));
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseNpgsql(postgresConnectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddDefaultIdentity<IdentityUser>(options => 
+        options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<DataContext>();
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
+
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(0);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.AllowedForNewUsers = true;
+    
+    options.User.AllowedUserNameCharacters =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.RequireUniqueEmail = false;
+});
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+    
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    options.SlidingExpiration = true;
+});
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddRazorPages();
@@ -28,6 +58,10 @@ builder.Services.AddControllersWithViews();
 // todo Move injection of this services to API
 builder.Services.AddTransient<IShopRepository, ShopRepository>();
 builder.Services.AddTransient<IShopService, ShopService>();
+
+// todo zajecia z doktorem:
+builder.Services.AddScoped<IAuthorizationInitializer, AuthorizationInitializer>();
+//builder.Services.AddScoped<IAuthorizationInitializer, AuthorizationInitializer>();
 
 //builder.Services.AddTransient<IRepositoryService<Shop>>();
 builder.Services.AddScoped(typeof(IRepositoryService<>), typeof(RepositoryService<>));
@@ -55,9 +89,18 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name : "areas",
+        pattern : "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+});
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.MapRazorPages();
 
 app.Run();
@@ -69,6 +112,8 @@ async Task CreateDbIfNotExists(IHost host)
     try
     {
         var context = services.GetRequiredService<DataContext>();
+        var authorizationInitializer = services.GetRequiredService<IAuthorizationInitializer>();
+        authorizationInitializer.GenerateAdminAndRoles();
         await Seeder.Seed(context);
     }
     catch (Exception e)
