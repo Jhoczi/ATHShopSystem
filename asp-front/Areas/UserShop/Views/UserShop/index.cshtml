@@ -1,0 +1,17 @@
+﻿@model asp_front.Models.ShopViewModel
+
+@{
+    ViewData["Title"] = "Shop";
+}
+
+<div class="mt-6">
+    
+    <h5>Shop details</h5>
+    @if (@Model != null)
+    {
+        <p>Id: @Model.Id</p>
+        <p>Name: @Model.Name</p>
+        <p>Address: @Model.Address</p>
+        <p>Owner: @Model.OwnerCredentials</p>
+    }
+</div>

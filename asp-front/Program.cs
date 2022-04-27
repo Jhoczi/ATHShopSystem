@@ -97,6 +97,11 @@ app.UseEndpoints(endpoints =>
     );
 });
 
+app.MapAreaControllerRoute(
+    name: "MyAreManageAdmin",
+    areaName: "MainAdmin",
+    pattern: "MainAdmin/{controller=Home}/{action=Index}/{id?}");
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
