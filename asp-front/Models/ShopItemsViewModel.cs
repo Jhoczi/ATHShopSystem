@@ -1,7 +1,7 @@
-﻿namespace asp_front.Models;
-
+﻿using ath_server.Models;
+namespace asp_front.Models;
 public class ShopItemsViewModel
 {
     public List<ShopViewModel> Shops;
-    public List<Product> Products { get; set; }
+    public List<global::Product> Products { get; set; }
 }

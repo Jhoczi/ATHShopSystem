@@ -1,7 +1,5 @@
 ﻿using ath_server.Models;
-
 namespace ath_server.Db;
-
 public class Seeder
 {
     public static async Task Seed(DataContext context)
@@ -13,7 +11,6 @@ public class Seeder
         {
             return;
         }
-
         IEnumerable<Shop> shops = new List<Shop>() 
         {
             new ()

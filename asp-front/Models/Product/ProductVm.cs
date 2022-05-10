@@ -1,12 +1,10 @@
-﻿using ath_server.Interfaces;
-using ath_server.Models;
+﻿namespace asp_front.Models.Product;
 
-public class Product : IEntityWithName<int>
+public class ProductVm
 {
     public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public decimal Price { get; set; }
-    
-    public virtual Shop Shop { get; set; }
+    public ShopViewModel Shop { get; set; }
 }

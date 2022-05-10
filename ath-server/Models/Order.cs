@@ -1,5 +1,4 @@
 ﻿namespace ath_server.Models;
-
 public class Order
 {
     public int Id { get; set; }

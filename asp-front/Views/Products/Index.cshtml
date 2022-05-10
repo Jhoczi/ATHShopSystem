@@ -1,0 +1,35 @@
+﻿@model asp_front.Models.Product.IndexProductVm
+
+@{
+    ViewData["Title"] = "ProductList";
+}
+
+<table class="table mt-5">
+    <thead>
+    <tr>
+        <th>
+            <h1 class="mt-5">Shoop List</h1>
+            <p class="">
+                <a asp-action="Create" class="btn btn-success">Create New Company</a>
+            </p>
+        </th>
+
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Products)
+    {
+        <tr>
+            <td>
+                <h5>@item.Name</h5>
+                <div>
+                    @Html.ActionLink("Details", "Details", new {id = item.Id}, new {@class = "btn btn-primary"})
+                    @Html.ActionLink("Edit", "Edit", new {id = item.Id}, new {@class = "btn btn-warning"})
+                    @Html.ActionLink("Delete", "Delete", new {id = item.Id}, new {@class = "btn btn-danger float-right"})
+
+                </div>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
