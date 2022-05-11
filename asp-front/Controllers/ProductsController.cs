@@ -14,27 +14,30 @@ namespace asp_front.Controllers
     {
         private readonly IMapper _mapper;
         private IRepositoryService<Product> _productService;
-        private IndexProductVm _index;
+        
 
         public ProductsController(IMapper mapper, IRepositoryService<Product> productService)
         {
             _mapper = mapper;
             _productService = productService;
-            _index = new IndexProductVm();
+           
         }
 
         // GET: Product
         public ActionResult Index()
         {
+            var indexVm = new IndexProductVm();
             IEnumerable<Product> dbProducts = _productService.GetAllRecords();
-            _index.Products = _mapper.Map<List<ProductVm>>(dbProducts);
-            return View(_index);
+            indexVm.Products = _mapper.Map<List<ProductVm>>(dbProducts);
+            return View(indexVm);
         }
 
         // GET: Product/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var dbProduct = _productService.GetSingle(id);
+            var productVm = _mapper.Map<ProductVm>(dbProduct);
+            return View(productVm);
         }
 
         // GET: Product/Create
@@ -46,13 +49,17 @@ namespace asp_front.Controllers
         // POST: Product/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(FormProductVm productVm)
         {
             try
             {
-                // TODO: Add insert logic here
-
+                var x = _mapper.Map<Product>(productVm);
+                _productService.Add(x);
                 return RedirectToAction(nameof(Index));
+            }
+            catch (Exception e)
+            {
+                throw (e);
             }
             catch
             {
@@ -63,18 +70,19 @@ namespace asp_front.Controllers
         // GET: Product/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var dbProduct = _productService.GetSingle(id);
+            var productVm = _mapper.Map<FormProductVm>(dbProduct);
+            return View(productVm);
         }
 
         // POST: Product/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, FormProductVm productVm)
         {
             try
             {
-                // TODO: Add update logic here
-
+                _productService.Edit(_mapper.Map<Product>(productVm));
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -86,7 +94,16 @@ namespace asp_front.Controllers
         // GET: Product/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            try
+            {
+                var selectedProduct = _productService.GetSingle(id);
+                _productService.Delete(selectedProduct);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         // POST: Product/Delete/5

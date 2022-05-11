@@ -1,6 +1,6 @@
 ﻿namespace asp_front.Models.Product;
 
-public class ProductVm : IProductViewModelWithId
+public class FormProductVm : IProductViewModelWithId
 {
     public int Id { get; set; }
     public string Name { get; set; }

@@ -1,0 +1,15 @@
+﻿@model asp_front.Models.Product.ProductVm;
+
+@{
+    ViewData["Title"] = "ProductDetails";
+}
+<div class="mt-6">
+    
+    <h5>Product details</h5>
+    @if (@Model != null)
+    {
+        <p>Name: @Model.Name</p>
+        <p>Description: @Model.Description</p>
+        <p>Price: @Model.Price PLN</p>
+    }
+</div>
