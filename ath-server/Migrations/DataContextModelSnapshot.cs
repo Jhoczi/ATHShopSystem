@@ -83,13 +83,12 @@ namespace ath_server.Migrations
                     b.Property<int>("ShopId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
                     b.Property<decimal>("PriceInShop")
                         .HasColumnType("numeric");
 
                     b.HasKey("ProductId", "ShopId");
+
+                    b.HasIndex("ShopId");
 
                     b.ToTable("ProductInShops");
                 });
@@ -330,12 +329,7 @@ namespace ath_server.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
-                    b.Property<int>("ShopId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ShopId");
 
                     b.ToTable("Products");
                 });
@@ -364,6 +358,17 @@ namespace ath_server.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("ath_server.Models.ProductInShop", b =>
+                {
+                    b.HasOne("ath_server.Models.Shop", "Shop")
+                        .WithMany("Products")
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Shop");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -415,17 +420,6 @@ namespace ath_server.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Product", b =>
-                {
-                    b.HasOne("ath_server.Models.Shop", "Shop")
-                        .WithMany("Products")
-                        .HasForeignKey("ShopId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Shop");
                 });
 
             modelBuilder.Entity("ath_server.Models.Order", b =>

@@ -23,8 +23,8 @@ public class DataContext : IdentityDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ProductInShop>()
-            .HasKey(ps => new { ps.ProductId, ps.ShopId });
-
+            .HasKey(ps => new {ps.ProductId, ps.ShopId});
+        
         modelBuilder.Entity<Shop>()
             .HasMany(p => p.Products);
 
