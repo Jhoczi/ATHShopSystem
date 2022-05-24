@@ -49,7 +49,7 @@ namespace asp_front.Controllers
         // POST: Product/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(FormProductVm productVm)
+        public ActionResult Create(CreateNewProductVm productVm)
         {
             try
             {

@@ -8,14 +8,19 @@ using ath_server.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 //var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-var postgresConnectionString = builder.Configuration.GetConnectionString("Postgres");
 // builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //     options.UseSqlServer(defaultConnectionString));
-
-
 // Add services to the container.
 // builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //     options.UseSqlite(defaultConnectionString));
+var postgresConnectionString = builder.Configuration.GetConnectionString("Postgres");
+// Localization Settings:
+var supportedCultures = new[] {"en-US", "pl"};
+var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+localizationOptions.ApplyCurrentCultureToResponseHeaders = true;
+// Builder Services:
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseNpgsql(postgresConnectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -88,7 +93,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseRequestLocalization(localizationOptions);
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
@@ -107,6 +112,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
+
 
 app.Run();
 

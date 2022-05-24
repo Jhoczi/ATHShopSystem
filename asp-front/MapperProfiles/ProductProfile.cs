@@ -10,5 +10,6 @@ public class ProductProfile : Profile
         CreateMap<Product, ProductVm>().ReverseMap();
         CreateMap<Product, ProductVmInShop>().ReverseMap();
         CreateMap<Product, FormProductVm>().ReverseMap();
+        CreateMap<Product, CreateNewProductVm>().ReverseMap();
     }
 }
