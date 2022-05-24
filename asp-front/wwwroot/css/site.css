@@ -7,7 +7,6 @@ html {
 @media (min-width: 768px) {
   html {
     font-size: 16px;
-
   }
   
   footer
@@ -22,17 +21,26 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
   font-family: 'Roboto', sans-serif;
- 
+  height:100%;
+}
+
+main {
+  flex: 1;
 }
 
 footer {
   margin-top:50px;
-  position: absolute;
   bottom: 0;
   width: 100%;
   white-space: nowrap;
+}
+
+.render-body
+{
+  display:flex;
+  flex-flow: column;
+  min-height: 100vh;
 }
 
 .body-container

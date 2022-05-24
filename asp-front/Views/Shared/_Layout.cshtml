@@ -39,41 +39,42 @@
         </div>
     </nav>
 </header>
-<div class="container">
+<div class="render-body">
     <main role="main" class="pb-3">
         @RenderBody()
     </main>
-</div>
-<footer class="footer-da d-flex flex-wrap justify-content-between align-items-center px-3 border-light bg-dark ">
-    <div class="container">
-        <div class="row mt-4">
-            <h4 class="text-white">Contact Us:</h4>
-            <div class="col-6 col-md-4 text-white">
-                <ul class="list-group list-unstyled ">
-                    <li class="mb-1">
-                        <i class="fa fa-solid fa-city me-2"></i>Bielsko-Biala
-                    </li>
-                    <li>
-                        <i class="fa fa-solid fa-road me-2"></i>Willowa 2
-                    </li>
-                </ul>
-            </div>
-            <div class="col-6 col-md-4 mb-4 text-white">
-                <ul class="list-group list-unstyled">
-                    <li>
-                        <i class="fa fa-solid fa-envelope me-2"></i> ath@shop.com
-                    </li>
-                    <li>
-                        <i class="fa fa-solid fa-phone me-2"></i>+48 123 456 789
-                    </li>
-                </ul>
+    <footer class="footer-da d-flex flex-wrap justify-content-between align-items-center px-3 border-light bg-dark ">
+        <div class="container">
+            <div class="row mt-4">
+                <h4 class="text-white">Contact Us:</h4>
+                <div class="col-6 col-md-4 text-white">
+                    <ul class="list-group list-unstyled ">
+                        <li class="mb-1">
+                            <i class="fa fa-solid fa-city me-2"></i>Bielsko-Biala
+                        </li>
+                        <li>
+                            <i class="fa fa-solid fa-road me-2"></i>Willowa 2
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-4 mb-4 text-white">
+                    <ul class="list-group list-unstyled">
+                        <li>
+                            <i class="fa fa-solid fa-envelope me-2"></i> ath@shop.com
+                        </li>
+                        <li>
+                            <i class="fa fa-solid fa-phone me-2"></i>+48 123 456 789
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container text-white">
-        &copy; 2022 - ATH Shoop Network System - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-    </div>
-</footer>
+        <div class="container text-white mb-2">
+            &copy; 2022 - ATH Shoop Network System - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+</div>
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
