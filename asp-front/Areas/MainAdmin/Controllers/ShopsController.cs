@@ -1,23 +1,29 @@
 ﻿using asp_front.Models;
+using asp_front.Models.ViewModels.Shop;
 using ath_server.Interfaces;
 using ath_server.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace asp_front.Controllers;
 
+namespace asp_front.Areas.MainAdmin.Controllers;
+
+[Authorize(Roles = "Admin")]
+[Area("MainAdmin")]
 public class ShopsController : Controller
 {
     private readonly IMapper _mapper;
-    //private IShopService _shopService;
     private IRepositoryService<Shop> _shopService;
-
+    private IRepositoryService<Product> _productService;
     private ShopItemsViewModel _shopItemsViewModel;
 
-    public ShopsController(IMapper mapper, IRepositoryService<Shop> shopService)
+    public ShopsController(IMapper mapper, IRepositoryService<Shop> shopService, IRepositoryService<Product> productService)
     {
         _mapper = mapper;
         _shopService = shopService;
+        _productService = productService;
         _shopItemsViewModel = new ShopItemsViewModel();
     }
 
@@ -63,14 +69,28 @@ public class ShopsController : Controller
     public ActionResult Edit(int id)
     {
         var dbShop = _shopService.GetSingle(id);
-        var shopViewModel = _mapper.Map<ShopViewModel>(dbShop);
+        var shopViewModel = _mapper.Map<EditShopViewModel>(dbShop);
+        shopViewModel.SelectListProductItem = new List<SelectListItem>();
+        shopViewModel.SelectListProductItem.Add(new ()
+        {
+            Text = "Select Product",
+            Value = ""
+        });
+        foreach (var product in _productService.GetAllRecords())
+        {
+            shopViewModel.SelectListProductItem.Add(new ()
+            {
+                Text = product.Name,
+                Value = product.Id.ToString()
+            });
+        }
         return View(shopViewModel);
     }
 
     // POST: ShopListController/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Edit(int id, ShopViewModel shopViewModel)
+    public ActionResult Edit(int id, EditShopViewModel shopViewModel)
     {
         try
         {
@@ -86,9 +106,9 @@ public class ShopsController : Controller
     // GET: ShopListController/Delete/5
     public ActionResult Delete(int id)
     {
-        var selectedShop = _shopItemsViewModel.Shops
-            .SingleOrDefault(x => x.Id == id);
-        return View();
+        var dbShop = _shopService.GetSingle(id);
+        _shopService.Delete(dbShop);
+        return RedirectToAction("Index");
     }
 
     // POST: ShopListController/Delete/5

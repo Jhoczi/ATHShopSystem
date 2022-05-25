@@ -1,12 +1,13 @@
-﻿@model asp_front.Models.ShopViewModel;
+﻿@model asp_front.Models.ViewModels.Shop.EditShopViewModel;
 
 @{
     ViewData["Title"] = "CreateNewShop";
 }
 <div class="mt-6">
 
-    <h5>Create New Shop</h5>
-    <form asp-controller="ManageAdmin" asp-action="Create" method="post">
+    <h5>Edit Shop</h5>
+    <form asp-controller="Shops" asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
         <div class="form-group mb-2">
             <label asp-for="Name" for="InputProductName">Company Name</label>
             <input asp-for="Name" type="text" class="form-control" id="InputProductName" placeholder="Enter company name">
@@ -15,8 +16,16 @@
             <label asp-for="Description" for="InputDescription">Description</label>
             <input asp-for="Description" type="text" class="form-control" id="InputProductDescription" placeholder="Enter description">
         </div>
+        <div class="form-group mb-2">
+            <label asp-for="Address" for="InputShopAddress">Address</label>
+            <input asp-for="Address" type="text" class="form-control" id="InputShopAddress" placeholder="Enter adress">
+        </div>
+        <div class="form-group mb-2">
+            <label asp-for="SelectedProducts" for="InputSelectedProducts">Add product to Shop</label>
+            @Html.DropDownListFor(m=>m.Id,new SelectList(Model.SelectListProductItem,"Value","Text",new{@class="form-control"}))
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
-        
+
     </form>
     @* @if (@Model != null) *@
     @* { *@
