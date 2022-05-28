@@ -78,11 +78,12 @@ namespace asp_front.Controllers
         // POST: Product/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, FormProductVm productVm)
+        public ActionResult Edit(FormProductVm productVm)
         {
             try
             {
-                _productService.Edit(_mapper.Map<Product>(productVm));
+                var productToDb = _mapper.Map<Product>(productVm);
+                _productService.Edit(productToDb);
                 return RedirectToAction(nameof(Index));
             }
             catch

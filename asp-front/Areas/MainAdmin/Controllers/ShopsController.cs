@@ -4,6 +4,7 @@ using ath_server.Interfaces;
 using ath_server.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -16,14 +17,14 @@ public class ShopsController : Controller
 {
     private readonly IMapper _mapper;
     private IRepositoryService<Shop> _shopService;
-    private IRepositoryService<Product> _productService;
+    private UserManager<IdentityUser> _users;
     private ShopItemsViewModel _shopItemsViewModel;
 
-    public ShopsController(IMapper mapper, IRepositoryService<Shop> shopService, IRepositoryService<Product> productService)
+    public ShopsController(IMapper mapper, IRepositoryService<Shop> shopService, IRepositoryService<Product> userService)
     {
         _mapper = mapper;
         _shopService = shopService;
-        _productService = productService;
+        _users = 
         _shopItemsViewModel = new ShopItemsViewModel();
     }
 
@@ -70,13 +71,13 @@ public class ShopsController : Controller
     {
         var dbShop = _shopService.GetSingle(id);
         var shopViewModel = _mapper.Map<EditShopViewModel>(dbShop);
-        shopViewModel.SelectListProductItem = new List<SelectListItem>();
-        shopViewModel.SelectListProductItem.Add(new ()
+        shopViewModel.UserList = new List<SelectListItem>();
+        shopViewModel.UserList.Add(new ()
         {
-            Text = "Select Product",
+            Text = "Select User",
             Value = ""
         });
-        foreach (var product in _productService.GetAllRecords())
+        foreach (var user in _userService.GetAllRecords())
         {
             shopViewModel.SelectListProductItem.Add(new ()
             {
