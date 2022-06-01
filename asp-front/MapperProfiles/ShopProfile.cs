@@ -10,6 +10,12 @@ public class ShopProfile : Profile
     public ShopProfile()
     {
         CreateMap<Shop, ShopViewModel>().ReverseMap();
-        CreateMap<Shop, EditShopViewModel>().ReverseMap();
+        CreateMap<Shop, EditShopViewModel>()
+            .ForMember(
+                shop=>shop.ShopOwner,
+                opt => 
+                    opt.MapFrom(x=>x.OwnerCredentials)
+                    )
+            .ReverseMap();
     }
 }

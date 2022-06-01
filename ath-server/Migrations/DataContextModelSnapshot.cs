@@ -109,6 +109,9 @@ namespace ath_server.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("OwnerCredentials")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("Shops");

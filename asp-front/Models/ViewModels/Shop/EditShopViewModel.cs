@@ -10,7 +10,7 @@ public class EditShopViewModel
     public string Name { get; set; }
     public string Description { get; set; }
     public string Address { get; set; }
-    public UserViewModel ShopOwner { get; set; }
+    public string ShopOwner { get; set; }
     public List<SelectListItem> UserList { get; set; }
     
 }

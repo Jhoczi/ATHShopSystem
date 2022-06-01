@@ -1,5 +1,6 @@
 ﻿using asp_front.Models;
 using asp_front.Models.ViewModels.Shop;
+using asp_front.Models.ViewModels.User;
 using ath_server.Interfaces;
 using ath_server.Models;
 using AutoMapper;
@@ -17,14 +18,15 @@ public class ShopsController : Controller
 {
     private readonly IMapper _mapper;
     private IRepositoryService<Shop> _shopService;
-    private UserManager<IdentityUser> _users;
+    private UserManager<IdentityUser> _usersManager;
     private ShopItemsViewModel _shopItemsViewModel;
 
-    public ShopsController(IMapper mapper, IRepositoryService<Shop> shopService, IRepositoryService<Product> userService)
+    public ShopsController(IMapper mapper, IRepositoryService<Shop> shopService, IRepositoryService<Product> userService, UserManager<IdentityUser> userManager)
     {
         _mapper = mapper;
         _shopService = shopService;
-        _users = 
+        _usersManager = userManager;
+        var x = _usersManager.Users.ToList();
         _shopItemsViewModel = new ShopItemsViewModel();
     }
 
@@ -77,12 +79,13 @@ public class ShopsController : Controller
             Text = "Select User",
             Value = ""
         });
-        foreach (var user in _userService.GetAllRecords())
+        var users = _mapper.Map<List<UserViewModel>>(_usersManager.Users.ToList());
+        foreach (var user in users)
         {
-            shopViewModel.SelectListProductItem.Add(new ()
+            shopViewModel.UserList.Add(new ()
             {
-                Text = product.Name,
-                Value = product.Id.ToString()
+                Text = user.Username,
+                Value = user.Username
             });
         }
         return View(shopViewModel);

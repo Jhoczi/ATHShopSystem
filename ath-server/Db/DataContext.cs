@@ -13,6 +13,7 @@ public class DataContext : IdentityDbContext
     public DbSet<ProductInShop> ProductInShops { get; set; } = null!;
     public DbSet<Order> Orders { get; set; } = null!;
     public DbSet<OrderDescription> OrdersDescriptions { get; set; } = null!;
+    
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
