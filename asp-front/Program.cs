@@ -125,7 +125,7 @@ async Task CreateDbIfNotExists(IHost host)
         var context = services.GetRequiredService<DataContext>();
         var authorizationInitializer = services.GetRequiredService<IAuthorizationInitializer>();
         await Seeder.Seed(context);
-        authorizationInitializer.GenerateAdminAndRoles();
+        await authorizationInitializer.GenerateAdminAndRoles();
     }
     catch (Exception e)
     {

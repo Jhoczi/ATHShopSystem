@@ -2,5 +2,5 @@
 
 public interface IAuthorizationInitializer
 {
-    void GenerateAdminAndRoles();
+    Task GenerateAdminAndRoles();
 }
