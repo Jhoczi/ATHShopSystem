@@ -3,14 +3,12 @@ using ath_server.Db;
 using ath_server.Interfaces;
 using ath_server.Services;
 using Microsoft.EntityFrameworkCore;
-
 namespace ath_server.Repositories;
-
 public class RepositoryService<T> : IRepositoryService<T>
     where T : class, IEntity<int>
 {
-    protected DbContext _context;
-    protected DbSet<T> _set;
+    private DbContext _context;
+    private DbSet<T> _set;
 
     public RepositoryService(DataContext dbContext)
     {
@@ -86,10 +84,7 @@ public class RepositoryService<T> : IRepositoryService<T>
     public virtual T GetSingle(int id)
     {
         var result = _set.FirstOrDefault(r => r.Id == id);
-
-
         return result;
-        ;
     }
 
     public virtual ServiceResult Save()
@@ -104,7 +99,6 @@ public class RepositoryService<T> : IRepositoryService<T>
             result.Result = ServiceResultStatus.Error;
             result.Messages.Add(e.Message);
         }
-
         return result;
     }
 }

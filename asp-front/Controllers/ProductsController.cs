@@ -13,7 +13,7 @@ namespace asp_front.Controllers
     public class ProductsController : Controller
     {
         private readonly IMapper _mapper;
-        private IRepositoryService<Product> _productService;
+        private readonly IRepositoryService<Product> _productService;
         
 
         public ProductsController(IMapper mapper, IRepositoryService<Product> productService)
