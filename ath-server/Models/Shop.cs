@@ -7,6 +7,7 @@ public class Shop : IEntityWithName<int>
     public string Name { get; set; }
     public string Description { get; set; }
     public string? OwnerCredentials { get; set; }
+    public DateTime? ArchivedAt { get; set; }
     public virtual ICollection<ProductInShop> Products { get; set; }
     
 }
