@@ -70,7 +70,7 @@ builder.Services.AddScoped<IAuthorizationInitializer, AuthorizationInitializer>(
 
 //builder.Services.AddTransient<IRepositoryService<Shop>>();
 builder.Services.AddScoped(typeof(IRepositoryService<>), typeof(RepositoryService<>));
-
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var app = builder.Build();
 await CreateDbIfNotExists(app);
 

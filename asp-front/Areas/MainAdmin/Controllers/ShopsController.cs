@@ -33,7 +33,7 @@ public class ShopsController : Controller
     // GET: ShopListController
     public async Task<IActionResult> Index()
     {
-        IEnumerable<Shop> dbShops = _shopService.GetAllRecords();
+        IEnumerable<Shop> dbShops = _shopService.GetAllRecords().Where(shop => shop.ArchivedAt == null);
         _shopItemsViewModel.Shops = _mapper.Map<List<ShopViewModel>>(dbShops);
         return View(_shopItemsViewModel);
     }
@@ -107,6 +107,14 @@ public class ShopsController : Controller
         }
     }
 
+    public ActionResult Archive(int id)
+    {
+        var dbShop = _shopService.GetSingle(id);
+        dbShop.ArchivedAt = DateTime.Now;
+        _shopService.Edit(dbShop);
+        return RedirectToAction("Index");
+    }
+    
     // GET: ShopListController/Delete/5
     public ActionResult Delete(int id)
     {
